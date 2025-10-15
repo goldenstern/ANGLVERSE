@@ -1,0 +1,184 @@
+<template>
+  <div :style="{width: width + 'px'}" class="investor">
+    <img :style="{width: width + 'px'}" :class="{flipped: flip}" :src="skinUrl">
+    <div v-if="message != ''" :class="{opaque: !messageIn}" class="chatbox pixel-border">
+        {{message}}
+    </div>
+    <div v-if="name != ''" :class="{opaque: messageIn}" class="chatbox2">
+        <span v-if="name == 'GoldenStern'" style="color: #e5c44f">{{name}}</span>
+        <span v-else>{{name}}</span>
+    </div>
+  </div>
+</template>
+
+<script>
+
+import WebsocketClient from '../wsclient'
+
+export default {
+  data: () => ({
+    message: "",
+    timer : null,
+    messageIn: false
+  }),
+  props: {
+    skinId: Number,
+    flip: {
+      type: Boolean,
+      default: false,
+    },
+    width: {
+      type: Number,
+      default: 300
+    },
+    name: {
+      type: String,
+      default: ""
+    }
+  },
+  mounted () {
+    WebsocketClient.addHandler('yell', this.onYellMasterEvent);
+    this.$on('yellInner', function (msg) {
+      console.log('yellInner', msg)
+    });
+  },
+  computed: {
+    skinUrl: function() {
+      if (this.skinId === null) {
+        return '';
+      }
+      var images = require.context('../assets/investor/', false, /\.svg$/)
+          
+      return images('./' + this.skinId + ".svg")
+    }
+  },
+  methods: {
+    onYellMasterEvent (evt) {
+      this.message = evt;
+      this.messageIn = true;
+      console.log('DON',this.messageIn)
+      clearTimeout(this.timer)
+      this.timer = setTimeout(()=>{
+        this.messageIn = false;
+        console.log('DOFF',this.messageIn)
+      },8000)
+    }
+  }
+}
+</script>
+
+<style>
+  .flipped {
+    transform: scaleX(-1);
+  }
+
+  :root {
+    --pixel-bg: white;
+    /* ↑ Inner background color */
+    
+    --pixel-border: black;
+    /* ↑ Inner border color */
+    
+    --pixel-border-2: #e5c44f;
+    /* ↑ Middle border color */
+    
+    --pixel-border-3: var(--pixel-border);
+    /* ↑ Outer border color */
+    
+    --pixel: 8px;
+    /* ↑ Pixel size */
+  }
+</style>
+<style scoped>
+  .pixel-border {
+    background: var(--pixel-bg);
+    box-shadow:
+      
+    /* Inner Background Color */
+      0 calc(var(--pixel) * -3) 0 calc(var(--pixel) * -1) var(--pixel-bg),
+      0 calc(var(--pixel) * 3) 0 calc(var(--pixel) * -1) var(--pixel-bg),
+      0 calc(var(--pixel) * -6) 0 calc(var(--pixel) * -2) var(--pixel-bg),
+      0 calc(var(--pixel) * 6) 0 calc(var(--pixel) * -2) var(--pixel-bg),
+      0 calc(var(--pixel) * -9) 0 calc(var(--pixel) * -4) var(--pixel-bg),
+      0 calc(var(--pixel) * 9) 0 calc(var(--pixel) * -4) var(--pixel-bg),
+      0 calc(var(--pixel) * -12) 0 calc(var(--pixel) * -6) var(--pixel-bg),
+      0 calc(var(--pixel) * 12) 0 calc(var(--pixel) * -6) var(--pixel-bg),
+      
+    /* Pixel Border Layer 1 */
+      calc(var(--pixel) * -1) 0 0 0 var(--pixel-border),
+      var(--pixel) 0 0 0 var(--pixel-border),
+      0 calc(var(--pixel) * -2) 0 0 var(--pixel-border),
+      0 calc(var(--pixel) * 2) 0 0 var(--pixel-border),
+      0 calc(var(--pixel) * -5) 0 calc(var(--pixel) * -1) var(--pixel-border),
+      0 calc(var(--pixel) * 5) 0 calc(var(--pixel) * -1) var(--pixel-border),
+      0 calc(var(--pixel) * -7) 0 calc(var(--pixel) * -2) var(--pixel-border),
+      0 calc(var(--pixel) * 7) 0 calc(var(--pixel) * -2) var(--pixel-border),
+      0 calc(var(--pixel) * -10) 0 calc(var(--pixel) * -4) var(--pixel-border),
+      0 calc(var(--pixel) * 10) 0 calc(var(--pixel) * -4) var(--pixel-border),
+      0 calc(var(--pixel) * -13) 0 calc(var(--pixel) * -6) var(--pixel-border),
+      0 calc(var(--pixel) * 13) 0 calc(var(--pixel) * -6) var(--pixel-border),
+      
+    /* Pixel Border Layer 2 */
+      calc(var(--pixel) * -2) 0 0 0 var(--pixel-border-2),
+      calc(var(--pixel) * 2) 0 0 0 var(--pixel-border-2),
+      0 calc(var(--pixel) * -1) 0 var(--pixel) var(--pixel-border-2), 
+      0 var(--pixel) 0 var(--pixel) var(--pixel-border-2),
+      0 calc(var(--pixel) * -4) 0 0 var(--pixel-border-2),
+      0 calc(var(--pixel) * 4) 0 0 var(--pixel-border-2),
+      0 calc(var(--pixel) * -6) 0 calc(var(--pixel) * -1) var(--pixel-border-2),
+      0 calc(var(--pixel) * 6) 0 calc(var(--pixel) * -1) var(--pixel-border-2),
+      0 calc(var(--pixel) * -8) 0 calc(var(--pixel) * -2) var(--pixel-border-2),
+      0 calc(var(--pixel) * 8) 0 calc(var(--pixel) * -2) var(--pixel-border-2),
+      0 calc(var(--pixel) * -11) 0 calc(var(--pixel) * -4) var(--pixel-border-2),
+      0 calc(var(--pixel) * 11) 0 calc(var(--pixel) * -4) var(--pixel-border-2),
+      0 calc(var(--pixel) * -14) 0 calc(var(--pixel) * -6) var(--pixel-border-2),
+      0 calc(var(--pixel) * 14) 0 calc(var(--pixel) * -6) var(--pixel-border-2),
+      
+    /* Border Layer 3: --pixel-border-3 */
+      calc(var(--pixel) * -3) 0 0 0 var(--pixel-border-3),
+      calc(var(--pixel) * 3) 0 0 0 var(--pixel-border-3),
+      0 0 0 calc(var(--pixel) * 2) var(--pixel-border-3),
+      0 calc(var(--pixel) * -3) 0 var(--pixel) var(--pixel-border-3),
+      0 calc(var(--pixel) * 3) 0 var(--pixel) var(--pixel-border-3),
+      0 calc(var(--pixel) * -5) 0 0 var(--pixel-border-3),
+      0 calc(var(--pixel) * 5) 0 0 var(--pixel-border-3),
+      0 calc(var(--pixel) * -7) 0 calc(var(--pixel) * -1) var(--pixel-border-3),
+      0 calc(var(--pixel) * 7) 0 calc(var(--pixel) * -1) var(--pixel-border-3),
+      0 calc(var(--pixel) * -9) 0 calc(var(--pixel) * -2) var(--pixel-border-3), 
+      0 calc(var(--pixel) * 9) 0 calc(var(--pixel) * -2) var(--pixel-border-3),
+      0 calc(var(--pixel) * -12) 0 calc(var(--pixel) * -4) var(--pixel-border-3), 
+      0 calc(var(--pixel) * 12) 0 calc(var(--pixel) * -4) var(--pixel-border-3),
+      0 calc(var(--pixel) * -15) 0 calc(var(--pixel) * -6) var(--pixel-border-3), 
+      0 calc(var(--pixel) * 15) 0 calc(var(--pixel) * -6) var(--pixel-border-3);
+  }
+
+  .chatbox {
+    font-size: 48px;
+    position: absolute;
+    bottom: 370px;
+    text-align: center;
+    width: 300px;
+    font-family: Superstar;
+    line-height: 1.0;
+    transition: opacity .5s linear;
+    opacity: 1;
+    overflow-wrap: break-word;
+  }
+
+  .chatbox2 {
+    font-size: 48px;
+    position: absolute;
+    bottom: 320px;
+    text-align: center;
+    width: 300px;
+    font-family: Superstar;
+    line-height: 1.0;
+    transition: opacity .5s linear;
+    opacity: 1;
+    overflow-wrap: break-word;
+  }
+
+  .opaque {
+    opacity: 0;
+  }
+</style>

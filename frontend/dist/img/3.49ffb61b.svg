@@ -1,0 +1,41 @@
+<svg width="138" height="150" viewBox="0 0 138 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="41.2207" y="13.74" width="13.7405" height="13.7404" transform="rotate(90 41.2207 13.74)" fill="#F4ED30"/>
+<rect x="54.9629" y="13.74" width="13.7405" height="13.7404" transform="rotate(90 54.9629 13.74)" fill="#FAFFC7"/>
+<rect x="96.1836" y="13.74" width="13.7405" height="13.7404" transform="rotate(90 96.1836 13.74)" fill="#FAFFC7"/>
+<rect x="109.924" y="27.481" width="13.7405" height="13.7404" transform="rotate(90 109.924 27.481)" fill="#F4ED30"/>
+<rect x="123.664" y="54.9619" width="13.7405" height="13.7404" transform="rotate(90 123.664 54.9619)" fill="#F4ED30"/>
+<rect x="41.2207" y="27.481" width="13.7405" height="13.7404" transform="rotate(90 41.2207 27.481)" fill="#FAFFC7"/>
+<rect x="27.4805" y="54.9619" width="13.7405" height="13.7404" transform="rotate(90 27.4805 54.9619)" fill="#FAFFC7"/>
+<rect x="27.4805" y="68.7019" width="40.0763" height="13.7404" transform="rotate(90 27.4805 68.7019)" fill="#FFFFEA"/>
+<rect x="41.2207" y="88.7405" width="33.7786" height="13.7404" transform="rotate(90 41.2207 88.7405)" fill="#FFFFEA"/>
+<rect x="54.9629" y="74.9995" width="47.5191" height="13.7404" transform="rotate(90 54.9629 74.9995)" fill="#FFFFEA"/>
+<rect x="96.1836" y="136.26" width="54.9618" height="13.7404" transform="rotate(-180 96.1836 136.26)" fill="#FFF48E"/>
+<rect x="123.664" y="122.519" width="54.9618" height="13.7404" transform="rotate(-180 123.664 122.519)" fill="#FFF48E"/>
+<rect x="123.664" y="108.779" width="41.2213" height="13.7404" transform="rotate(-180 123.664 108.779)" fill="#FFF48E"/>
+<rect x="68.7031" y="13.74" width="95.0381" height="13.7404" transform="rotate(90 68.7031 13.74)" fill="#FFFFEA"/>
+<rect x="82.4434" y="13.74" width="81.2976" height="13.7404" transform="rotate(90 82.4434 13.74)" fill="#FFFFEA"/>
+<rect x="96.1836" y="27.481" width="53.8168" height="13.7404" transform="rotate(90 96.1836 27.481)" fill="#FFFFEA"/>
+<rect x="109.924" y="41.2209" width="53.8168" height="13.7404" transform="rotate(90 109.924 41.2209)" fill="#FFF48E"/>
+<rect x="123.664" y="68.7019" width="26.3359" height="13.7404" transform="rotate(90 123.664 68.7019)" fill="#FFF48E"/>
+<rect x="109.924" y="13.74" width="13.7405" height="13.7404" transform="rotate(90 109.924 13.74)" fill="#FFED49"/>
+<rect x="27.4805" y="122.519" width="13.7405" height="13.7404" transform="rotate(90 27.4805 122.519)" fill="#F9E851"/>
+<rect x="41.2207" y="122.519" width="13.7405" height="13.7404" transform="rotate(90 41.2207 122.519)" fill="#F4ED30"/>
+<rect x="27.4805" y="108.779" width="13.7405" height="13.7404" transform="rotate(90 27.4805 108.779)" fill="#FAFFC7"/>
+<rect x="68.7031" y="108.779" width="13.7405" height="13.7404" transform="rotate(90 68.7031 108.779)" fill="#FAFFC7"/>
+<rect x="82.4434" y="95.0376" width="13.7405" height="13.7404" transform="rotate(90 82.4434 95.0376)" fill="#FAFFC7"/>
+<rect x="96.1836" y="81.2976" width="13.7405" height="13.7404" transform="rotate(90 96.1836 81.2976)" fill="#FAFFC7"/>
+<rect x="109.924" y="122.519" width="13.7405" height="13.7404" transform="rotate(90 109.924 122.519)" fill="#F4ED30"/>
+<rect x="123.664" y="122.519" width="13.7405" height="13.7404" transform="rotate(90 123.664 122.519)" fill="#F1E361"/>
+<rect x="27.4805" y="27.481" width="27.4809" height="13.7404" transform="rotate(90 27.4805 27.481)" fill="#F4ED30"/>
+<rect x="41.2207" y="41.2209" width="47.5191" height="13.7404" transform="rotate(90 41.2207 41.2209)" fill="#FFF6A5"/>
+<rect x="54.9629" y="27.481" width="47.5191" height="13.7404" transform="rotate(90 54.9629 27.481)" fill="#FFF6A5"/>
+<rect x="123.664" y="27.481" width="27.4809" height="13.7404" transform="rotate(90 123.664 27.481)" fill="#F9E851"/>
+<path d="M41.2207 0H96.1825V13.7404H41.2207V0Z" fill="#F4ED30"/>
+<path d="M54.9629 0H96.1842V13.7404H54.9629V0Z" fill="#FFED49"/>
+<path d="M13.7404 88.7407L13.7404 122.519L4.30839e-07 122.519L1.90735e-06 88.7407L13.7404 88.7407Z" fill="#FFED49"/>
+<path d="M13.7405 54.9619L13.7405 88.7405L2.618e-05 88.7405L2.76566e-05 54.9619L13.7405 54.9619Z" fill="#F4ED30"/>
+<path d="M137.405 54.9619L137.405 122.519L123.664 122.519L123.664 54.9619L137.405 54.9619Z" fill="#F9E851"/>
+<path d="M68.7031 136.26H109.924V150H68.7031V136.26Z" fill="#F1E361"/>
+<path d="M27.4805 136.26H68.7018V150H27.4805V136.26Z" fill="#F9E851"/>
+<path d="M13.7405 54.9619L13.7405 88.7405L2.618e-05 88.7405L2.76566e-05 54.9619L13.7405 54.9619Z" fill="#F4ED30"/>
+</svg>

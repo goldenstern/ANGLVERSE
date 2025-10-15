@@ -1,0 +1,43 @@
+{
+    "name": "AnglVerse",
+    "short_name": "Angl.app",
+    "theme_color": "#e5c44f",
+    "background_color": "#ffffff",
+    "display": "fullscreen",
+    "scope": "/",
+    "start_url": "https://angl.app/",
+    "description": "AnglVerse is a pocket metaverse and a scientific playground to expand, experiment and tweak the utopian/communistic green mining crypto technology, named Quantum Oracle (α).",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "https://angl.app/logo.png",
+            "sizes": "1024x1024"
+        }
+    ],
+    "screenshots": [
+    {
+      "src": "https://angl.app/m1.png",
+      "sizes": "472x896",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "https://angl.app/m2.png",
+      "sizes": "472x896",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "https://angl.app/m4.png",
+      "sizes": "472x896",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "https://angl.app/m3.png",
+      "sizes": "2721x1866",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+}

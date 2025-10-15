@@ -1,0 +1,2324 @@
+<template>
+  <div>
+    <div v-if="!loaded2" style="background: white;position: absolute;width: 100%;height: 100%;display: flex;flex-direction: column;justify-content: center;z-index: 1">
+        <img style="width: 100%;" src="../assets/loading.gif">
+        <br><span style="display: block;position: relative;line-height: 10px;color: #000000;font-family: Rubik;font-weight: 400;font-size: 50px;height: 200px;margin-bottom: 200px;font-weight:700">Stabilizing Quantum-Temporal Flux...</span>
+    </div>
+    <div class="cont noselect" :class="{loaded: state.isLoggedIn}" >
+      <div class="header" style="position: absolute;">
+        <div v-if="!isVerse" class="back-b" @click="setChartSize">
+          <img style="width: 60px;" src="@/assets/chart.png">
+        </div>
+        <div v-if="!isVerse" class="back-b" @click="setSize" style="left: 100px">
+          <img style="width: 60px;" src="@/assets/scale.png">
+        </div>
+        <div class="p-name">
+          <div @click="wallet" style="width: auto;display: initial;"><span v-if="!isVerse">{{state.name}}</span></div>
+          <div @click="wallet" class="men-b" >
+            <div class="overflow">
+              <investor :width="110" :flip="true" style="transition: opacity 1s ease 0s;position: absolute;right: -15px;bottom: -9px;width: 110px;left: initial;top: initial;" class="egg" :skin-id="state.user.investor_skin_id"></investor>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tot-b">
+        <!-- <div v-if="this.nodeval2 && isGSB" class="w-i-2" style="pointer-events: none;margin-bottom: 0;z-index: 202;">
+          <span style="text-transform: capitalize;">Number of GoldenStern<img class="cash" src="@/assets/Vector.png"></span>
+          <br>
+          <span class="yld">{{parseFloat(this.nodeval2).toFixed(4)}}%</span>
+        </div>
+        <div v-if="this.nodeval && isEye" class="w-i-2" style="pointer-events: none;margin-bottom: 0;z-index: 202;">
+          <span style="text-transform: capitalize;">Green Mining Pool<img class="cash" src="@/assets/Vector.png"></span>
+          <br>
+          <span class="yld">{{parseFloat(this.pool).toFixed(8)}}</span>
+        </div>
+        <div v-if="this.nodeval && isEye" class="w-i-2" style="pointer-events: none;z-index: 202;margin-bottom: 0;">
+          <span>Mined in AnglVerse<img class="cash" src="@/assets/Vector.png"></span>
+          <br>
+          <span class="yld">{{parseFloat(this.mint).toFixed(8)}}</span>
+        </div>
+        <div v-if="this.nodeval && isEye" class="w-i-2" style="pointer-events: none;z-index: 202;margin-bottom: 0;">
+          <span>Mining Nodes Live</span>
+          <br>
+          <span class="yld">{{this.nodes}}</span>
+        </div>
+        <div v-if="this.nodeval && isEye" class="w-i-2" style="pointer-events: none;z-index: 202;">
+          <span>Masters Online Monthly</span>
+          <br>
+          <span class="yld">{{this.online}}</span>
+        </div> -->
+    </div>
+    <div class="chat-blob" v-if="isVerse && chat_log" ref="chatContainer" @touchstart="angleOntouchstart" @touchmove="angleOntouchmove" @touchend="angleOntouchend">
+      <div>
+        <span v-for="(chatMessage, index) in filteredChat" :key="chatMessage.id">
+          <span>
+            <span v-if="index === filteredChat.length - 1" style="color: #ff8ee4">&gt; </span>
+            <span v-else>&gt; </span>
+
+            <!-- Показываем титул, если он есть -->
+            <span v-if="chatMessage.data.title && chatMessage.data.name != 'GoldenStern'" 
+              :style="{ color: '#e5c44f' }"
+            >
+            ({{ chatMessage.data.title }})
+            </span>
+            <!-- Имя: золотое, если GoldenStern или титул S/P -->
+            <span 
+              :style="{
+                color: (chatMessage.data.name === 'GoldenStern' || chatMessage.data.title === 'S' || chatMessage.data.title === 'P' || chatMessage.data.title === 'SP') 
+                  ? '#e5c44f' 
+                  : 'inherit'
+              }"
+            >
+            {{ chatMessage.data.name }}:
+            </span>
+          </span>
+
+          {{ chatMessage.content }}
+        </span>
+      </div>
+    </div>
+
+
+    <div @touchstart="angleOntouchstart" @touchmove="angleOntouchmove" @touchend="angleOntouchend" class="g-s-m" v-if="activity_state == 'idle'">
+    </div>
+    <div class="bot-h" @touchstart="angleOntouchstart" @touchmove="angleOntouchmove" @touchend="angleOntouchend" >
+      <div class="angl-c" v-if="activity_state == 'idle'">
+          <!-- <chart :class="{visible: state.options.chart_mode == 4, chartmuted: state.options.chart_mode == 3}" :verse="true" style="transition:  opacity 1s ease;width: calc(1080px - 0px);margin-left:-80px;position: absolute;bottom: 0;opacity: 0.6;pointer-events: none;"></chart>
+          <chart-num  :class="{visible: state.options.chart_mode == 1, chartmuted: state.options.chart_mode == 2}" :verse="true" style="transition:  opacity 1s ease;width: calc(1080px - 26px);margin-left:-63px;position: absolute;bottom: 0;opacity: 0.6;pointer-events: none;"></chart-num> -->
+          <div :class="{size2: state.options.forum_size == 2}">
+            <div :class="{starting: !this.loaded}" style="left: 50%;position: absolute;bottom: 0;transition:  all 1s linear;">
+              <div :style="{left: -coord + 'px'}" style="display: block;width: fit-content;height: 100%;position: relative;display: flex;flex-direction: column-reverse;pointer-events: none;">
+                <img style="z-index: 21;pointer-events: none;transition: 1.5s ease opacity;height: 740px;position: absolute;margin-left:calc(760px - 760px);left: 0px;bottom: 0;" src="@/assets/misc/ditch-front.png">
+                <div v-for="investor in filteredForum" :key="investor.user_id" :class="{transif: loaded2}" :style="{left: investor.coordinate + 'px'}" style="z-index: 3;position: absolute;margin-left: -150px;">
+                  <investor style="pointer-events: initial!important;" v-if="investor.type == 'master'" @clicked="sendSelect(investor.id)" :class="{selected: selectId == investor.id && isSendSelect}" :skin-id="investor.skin_id" :flip="investor.flip" :puff="investor.puff" :name="investor.name" :verse="investor.data.verse" :senator="investor.senator" :patricius="investor.patricius" :ref="'master' + investor.user_id"></investor>
+                  <investor style="pointer-events: initial!important;" v-else-if="investor.type == 'scribe'" @clicked="voteSelect(investor.id)" :class="{selected: selectId == investor.id && isVoteSelect}" :votes="investor.data.votes" :limit="investor.data.limit" :skin-id="investor.skin_id" :flip="investor.flip" :name="investor.name" :senator="investor.senator" :patricius="investor.patricius" :verse="investor.data.verse"></investor>
+                </div>
+                <img style="transition: 1.5s ease opacity;height: 740px;position: initial;margin-left:calc(760px - 760px);left: 0px;bottom: 0;" src="@/assets/misc/ditch-rear-broken.png">
+              </div>  
+            </div>
+            <investor :ref="'master' + state.user.id" :class="{starting2: this.loaded}" :puff="isMePuff" :flip="flip" style="position: absolute;right: 0px;bottom: 0px;width: 300px;margin-left: -50px;left: initial;transition:margin-right 1s linear 0s, right 1s linear 0s;pointer-events: none" class="egg" :skin-id="state.user.investor_skin_id" :senator="state.user.senator" :patricius="state.user.patricius"></investor>
+          
+          </div>
+            <div class="pagination-line" style="">
+            <div v-for="investor in filteredForum" :key="investor.id" :class="{transif: loaded2}" style="position: absolute;height: 5px;" :style="{left: investor.coordinate <= minCoord ? `-${((minCoord - investor.coordinate) / (maxCoord - minCoord)) * 100}%` : '0px', width: investor.coordinate <= minCoord ? '0%' : investor.coordinate >= maxCoord ? '100%' : `${((investor.coordinate - minCoord) / (maxCoord - minCoord)) * 100}%`}">
+              <div style="position:absolute;right: 0;width:40px;height: 5px;margin-right: -20px;background: #ff8ee4;"></div>
+            </div>
+            <div v-if="coord >= this.minCoord" style="position: absolute;height: 5px;" :style="{width: `${((coord - minCoord) / (maxCoord - minCoord)) * 100}%`}">
+              <div style="position:absolute;right: 0;width:40px;height: 5px;margin-right: -20px;background: #e5c44f;"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div v-if="(isVerse)" style="height: 160px">
+          <input @input="actionVerse" style="width: calc(77% - 50px);pointer-events:initial!important;margin-right: 10px;bottom: -3px;" class="buttdw success" v-model="verse" placeholder="Verse something!">
+          <div style="width: calc(23% - 50px);margin-left: 10px" class="buttdw goldish" @click="actionYell">
+            <span style="z-index: 300;overflow: hidden;">Yell</span>
+          </div>
+        </div>
+        <div v-else-if="(state.name == 'GoldenStern' && isVoteSelect)" style="height: 160px">
+          <div style="width: calc(50% - 50px);margin-right: 10px" class="buttdw" @click="actionVote">
+            <span style="z-index: 300;overflow: hidden;">Vote Inscription</span>
+          </div>
+          <div style="width: calc(50% - 50px);margin-left: 10px" class="buttdw goldish" @click="actionPromote">
+            <span style="z-index: 300;overflow: hidden;">Promote</span>
+          </div>
+        </div>
+        <div v-else-if="(isSendSelect)" style="height: 160px">
+          <div style="width: calc(50% - 50px);margin-right: 10px;transition: none" class="buttdw" @click="actionSend">
+            <span style="z-index: 300;overflow: hidden;">Send Coins</span>
+          </div>
+          <div style="width: calc(50% - 50px);margin-left: 10px;transition: noned" class="buttdw goldish" @click="actionLike">
+            <span style="z-index: 300;overflow: hidden;">Enluv</span>
+          </div>
+        </div>
+
+        <!-- <div @click="copylink" style="position: relative;">
+          <input class="reflink" placeholder="reflink" v-model="state.user.ref_link" type="text" />
+          <img src="@/assets/copy.svg" style="width: 60px;z-index: 1000;top: 47px;right: 60px;position: absolute;">
+        </div> -->
+        
+        <button v-if="!isVerse && !isSendSelect && !(state.name == 'GoldenStern' && isVoteSelect)" class="buttdw" :class="{locked: (!this.nodeval && isEye && !isVoteSelect && !isSendSelect && !isLuv) || isError || (isNoWay && !isVoteSelect) || isSending, sclocked: isLuv, slocked: isSending || isActionDone && !isError && !isVoteSelect && !isSendSelect, unlocked: isError}" @click="action">
+          <span v-if="isError">{{error}}</span>
+          <span v-else-if="isSending">Processing action...</span>
+          <span style="z-index: 300;overflow: hidden;" v-else-if="isLuv">{{luvName}} luves you</span>
+          <span style="z-index: 300;overflow: hidden;" v-else-if="isVoteSelect">Vote Inscription</span>
+          <span style="z-index: 300;overflow: hidden;" v-else-if="isActionDone">Action Complete!</span>
+          <span style="z-index: 300;overflow: hidden;" v-else-if="isLeave">Travel to Forum</span>
+          <span style="z-index: 300;overflow: hidden;" v-else>Verse</span>
+        </button>
+        <div class="ctdwn" style="pointer-events: none;">
+          <div v-if="!state.game.isLocked">Next Crypto Aeon in</div>
+          <div style="color:#ff8ee4" v-else><span v-if="state.game.isReload">Starting new Crypto Aeon</span><span v-else>Computing Crypto Aeon</span></div>
+          <div :class="{locked: state.game.isLocked}" class="clock">{{state.game.timeToEnd}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+// Здесь JS
+import axios from 'axios'
+import state from '../store/state'
+import config from '../config'
+import utils from '../utils'
+import router from '../router'
+import Investor from '../components/Investor.vue'
+// import Chart from '../components/ChartVerse.vue'
+// import ChartNum from '../components/ChartNum.vue'
+import WebsocketClient from '../wsclient'
+
+const MAX_SPEED = 13.5;
+const FRICTION = 0.9;
+
+export default {
+  data: () => ({
+    state,
+    stats: [],
+    activity_state: 'idle',
+    currentAnimId: null,
+    touchStartX: null,
+    touchStartY: null,
+    moveStart: false,
+    rdy: false,
+    //lng: 0,
+    isTutorial: !JSON.parse(window.localStorage.getItem('tutorial-done')),
+    isTutorial2: !JSON.parse(window.localStorage.getItem('tutorial2-done')),
+    touchPriority: false,
+    timer: null,
+    timer2: null,
+    timer3: null,
+    timer4: null,
+    walletActive: false,
+    depActive: false,
+    withActive: false,
+    dwCounter: 0.0,
+    origCounter: null,
+    isSuccessDW: false,
+    depLock: false,
+    pool: null,
+    emit: null,
+    mint: null,
+    nodes: null,
+    online: null,
+    nodeval: null,
+    nodeval2: null,
+    rawchart: null,
+    rawchart2: null,
+    coord: null,
+    tmpcoord: null,
+    flip: null,
+    isVerse: false,
+    verse: '',
+    walklock: false,
+    loaded: false,
+    loaded2: false,
+    walkTimer: null,
+    isMoved: false,
+    error: null,
+    isError: false,
+    isVoteSelect: false,
+    isSendSelect: false,
+    isActionDone: false,
+    isLuv: false,
+    luvName: null,
+    selectId: null,
+    isSending: false,
+    maxCoord: 6256, //15537
+    //minCoord: 0,
+    lastTime: 0,
+    velocity: 0,
+    acceleration: 0,
+    room_id: null,
+    now: Date.now(),
+    animationFrameId: null,
+    lastTimestamp: null,
+    fps: 30, // Desired frames per second,
+    chat_log: null,
+    chat_log_ts: null,
+    touchStartTime: null,
+    touchLastDirection: null,
+    isSliding: null,
+    audio: null,
+  }),
+  components: {
+    Investor,
+    // Chart,
+    // ChartNum
+  },
+  computed: {
+    channel () {
+      let channel = 0
+      return channel
+    },
+    filteredChat () {
+      if (this.chat_log)
+        return this.chat_log.filter(msg => {
+          const matchRoom = !this.room_id || msg.room === this.room_id;
+          const matchChannel = this.channel === undefined || msg.channel === this.channel;
+          return matchRoom && matchChannel;
+        });
+      else
+        return null
+    },
+    isMePuff () {
+      return this.state.items.find(element => element.type == 'Puff')
+    },
+    minCoord () {
+      return 0
+    },
+    isScribe() {
+      let found = this.state.items.find(element => element.type == 'Scribe');
+      if (found) {
+        return true
+      } else {
+        return false;
+      }
+    },
+    isIncense() {
+      let found = this.state.items.find(element => element.type == 'Incense');
+      if (found) {
+        return true
+      } else {
+        return false;
+      }
+    },
+    isMap() {
+      let found = this.state.items.find(element => element.type == 'Map');
+      if (found) {
+        return true
+      } else {
+        return false;
+      }
+    },
+    filteredForum() {
+      return state.forum.filter(item => (item.type == 'master' && item.user_id != state.user.id) || (item.type == 'scribe') ).sort(function (a, b) {
+          if (a.type > b.type) {
+              return -1;
+          }
+          if (b.type > a.type) {
+              return 1;
+          }
+          return 0;
+      });
+    },
+    isLeave () {
+        if (this.coord == 0) 
+          return true
+        else
+          return false
+    },
+    isEye () {
+      if (this.coord > 12420 && this.coord < 13229) return true;
+      return false
+    },
+    isNote () {
+      if (this.coord > 785 && this.coord < 1385) {
+        //this.buttonActive = true
+        //this.buttonText = ""
+        return true;
+      }
+      if (this.coord > 18580 && this.coord < 19148) {
+        //this.buttonActive = true
+        //this.buttonText = ""
+        return true;
+      }
+      return false
+    },
+    isGSL () {
+      if (this.coord > 2020 && this.coord < 2450) {
+        //this.buttonActive = true
+        //this.buttonText = ""
+        return true;
+      }
+      return false
+    },
+    isGSB () {
+      if (this.coord > 2700 && this.coord < 3040) {
+        //this.buttonActive = true
+        //this.buttonText = ""
+        return true;
+      }
+      return false
+    },
+    isMint () {
+      if (this.coord > 8949 && this.coord < 9773) {
+        //this.buttonActive = true
+        //this.buttonText = ""
+        return true;
+      }
+      return false
+    },
+    isTrade () {
+      //if (this.coord > 3472 && this.coord < 3892) return true;
+      return false
+    },
+    isRewards () {
+      if (this.coord > 21316 && this.coord < 21669) {
+        return true;
+      }
+      return false
+    },
+    isPatri () {
+      return ( Date.parse(state.user.patricius) >= this.now )   
+    },
+    isInc1 () {
+      return ( Date.parse(state.appVars.incense_1) >= this.now )   
+    },
+    isInc2 () {
+      return ( Date.parse(state.appVars.incense_2) >= this.now )   
+    },
+    isInc3 () {
+      return ( Date.parse(state.appVars.incense_3) >= this.now )   
+    },
+    isCaravan () {
+      if (state.appVars.caravan == '') return false
+      return ( Date.parse(state.appVars.caravan) >= this.now )   
+    },
+    isCaravanItems () {
+      return ( state.appVars.caravan_items > 0 )   
+    },
+    rate () {
+      return ( this.isInc1 ? 2 : 1 ) * ( this.isInc2 ? 2 : 1 ) * ( this.isInc3 ? 2 : 1 ) 
+    },
+    isNoWay () {
+      if ( ( (Date.parse(state.user.patricius) >= this.now) || (Date.parse(state.user.senator) >= this.now) )  ) return false
+      if (this.coord == 10631) return true
+      return false
+    },
+    isIncense1 () {
+      if (this.coord > 11523 && this.coord < 11763) return true;
+      return false
+    },
+    isIncense2 () {
+      if (this.coord > 15263 && this.coord < 15503) return true;
+      return false
+    },
+    isIncense3 () {
+      if (this.coord > 17963 && this.coord < 18203) return true;
+      return false
+    },
+    isMail () {
+      if (this.coord > 20083 && this.coord < 20453) return true;
+      return false
+    },
+    isPony () {
+      if (this.coord > 20513 && this.coord < 21113) return true;
+      return false
+    },
+    isQuests () {
+      if (this.coord > 14503 && this.coord < 15293) return true;
+      return false
+    },
+    isTax () {
+      if (this.coord > 10773 && this.coord < 11193) return true;
+      return false
+    },
+    isChest () {
+      if (this.coord > 8316 && this.coord < 8733) return true;
+      return false
+    },
+    isLedger () {
+      if (this.coord > 7863 && this.coord < 8336) return true;
+      return false
+    },
+    isState () {
+      if (this.coord > 6899 && this.coord < 7683) return true;
+      return false
+    },
+    isFund () {
+      if (this.coord > 17003 && this.coord < 17483) return true;
+      return false
+    },
+
+  },
+  watch: {
+    'state.items': {
+      deep: true,
+      handler: ()=>{}
+    },
+    'state.forum': {
+      deep: true,
+      handler: ()=>{}
+    },
+    'state.oogles': {
+      deep: true,
+      handler: ()=>{}
+    },
+    'state.isLoggedIn': () => {},
+    'chat_log': {
+       handler() {},
+       deep: true,
+       immediate: true // optional: if you want it to run on mount
+     }
+  },
+  methods: {
+    scrollToBottom(mandatory = false) {
+      this.$nextTick(() => {
+        const container = this.$refs.chatContainer;
+        if (container) {
+          const threshold = 400; // px from bottom to still auto-scroll
+          const isNearBottom =
+            container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+
+          if (mandatory || (!mandatory && isNearBottom)) {
+            container.scrollTop = container.scrollHeight;
+          }
+        }
+      });
+    },
+    startAnimation() {
+      const interval = 1000 / this.fps; // Calculate the interval in milliseconds
+      let lastFrameTime = performance.now();
+
+      const update = (timestamp) => {
+        const elapsed = timestamp - lastFrameTime;
+
+        if (elapsed > interval) {
+          // Update only if enough time has passed
+          this.coord = this.tmpcoord; // Update coord to tmpcoord
+
+          // Perform your other animations or updates here
+
+          lastFrameTime = timestamp - (elapsed % interval);
+        }
+
+        // Continue the animation loop
+        this.animationFrameId = requestAnimationFrame(update);
+      };
+
+      // Start the animation loop
+      this.animationFrameId = requestAnimationFrame(update);
+    },
+    stopAnimation() {
+      // Stop the animation loop
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    },
+    getDiff (date) {
+      const currentDate = new Date();
+      const patriciusDate = new Date(date);
+      const timeDifference = patriciusDate - currentDate;
+      const minutes = Math.floor(timeDifference / (1000 * 60));
+      const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      if (days > 0) {
+        return `${days} day${days > 1 ? 's' : ''}`;
+      } else if (hours > 0) {
+        return `${hours} hour${hours > 1 ? 's' : ''}`;
+      } else if (minutes > 0) {
+        return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+      } else {
+        return 'less 1 minute';
+      }
+    },
+    loadTransactions () {
+      utils.loadTransactions();
+    },
+    onSlideChange () {
+      //console.log('slide change');
+    },
+    convertToBnb (val) {
+      if (val < 0) return '- ' + parseFloat(Math.abs(val)).toFixed(8);
+      return parseFloat(val).toFixed(8);
+    },
+    convertToBnb2 (val) {
+      return (parseFloat(val)  / 35886.34).toFixed(8);
+    },
+    getImgUrl(pet) {
+      if (pet == null) return;
+      var images = require.context('../assets/monsters/', false, /\.svg$/)
+      //:src="'@/assets/monsters/'+state.oogle.skin+'.svg'"
+      return images('./' + pet + ".svg")
+    },
+    getSkinUrl(pet) {
+      if (pet == null) return;
+      var images = require.context('../assets/investor/', false, /\.svg$/)
+      //:src="'@/assets/monsters/'+state.oogle.skin+'.svg'"
+      return images('./' + pet + ".svg")
+    },
+    depRight () {
+      if (this.selectEgg < this.maxEgg) {
+        this.selectEgg ++
+      } else {
+        this.selectEgg = 1
+      }
+      this.depLock = true;
+    },
+    depLeft () {
+      if (this.selectEgg > 1) {
+        this.selectEgg --
+      } else {
+        this.selectEgg = this.maxEgg
+      }
+      this.depLock = true;
+    },
+    logout() {
+      axios
+      .get(config.csrf)
+      .then(() => {
+        axios.post(
+          `${config.api}/auth/logout`,
+          {
+          }
+          ).then(() => {
+            state.isLoggedIn = false;
+            this.$router.replace('/login')
+          })
+        })
+    },
+    wallet() {
+      // if (this.depActive != true && this.withActive != true)
+      //   this.walletActive = !this.walletActive;
+      // else
+      //   this.back2();
+      if (this.isVerse == true)
+        return this.isVerse = false
+      axios.get(`${config.api}/rooms/leave`)
+      state.forum.splice(0,state.forum.length)
+      this.$router.replace('/')
+    },
+    dep() {
+      this.depActive = !this.depActive;
+    },
+    withd() {
+      this.$router.push('/popeidol')
+    },
+    upgd() {
+      this.$router.push('/traineidol')
+    },
+    closs() {
+        axios
+        .get(config.csrf)
+        .then(() => {
+          axios.post(
+            `${config.api}/oogles/` + this.ogle.id + `/confirmloss`,
+            {
+            }
+            ).then(() => {
+              this.$router.replace('/')
+            })
+        });
+    },
+    angleOntouchstart(evt) {
+      if (!this.loaded || this.isSliding || this.gestureCanceled) return;
+
+      if (evt.touches.length !== 1) {
+        this.cancelGesture("Multitouch detected on start");
+        return;
+      }
+
+      this.isSliding = true;
+      clearInterval(this.timer2);
+      this.touchStartX = evt.touches[0].screenX;
+      this.touchStartY = evt.touches[0].screenY;
+      this.touchStartTime = evt.timeStamp || Date.now();
+      this.touchLastDirection = null;
+      this.walklock = true;
+      setTimeout(() => { this.walklock = false }, 1000);
+    },
+
+    angleOntouchmove(evt) {
+      if (!this.loaded || this.gestureCanceled) return;
+
+      if (evt.touches.length !== 1) {
+        this.cancelGesture("Multitouch detected on move");
+        return;
+      }
+
+      const x = evt.touches[0].screenX;
+      const y = evt.touches[0].screenY;
+      const dx = x - this.touchStartX;
+      const dy = y - this.touchStartY;
+
+      if (this.isVerse) {
+        if (!this.touchLastDirection) {
+          this.touchLastDirection = (Math.abs(dx) > Math.abs(dy)) ? 'horizontal' : 'vertical';
+        }
+        if (this.touchLastDirection === 'vertical') return;
+      }
+
+      evt.preventDefault();
+
+      clearInterval(this.timer2);
+
+      if (!this.moveStart) {
+        this.moveStart = true;
+        this.isTutorial = false;
+        state.tutorialDone = true;
+        window.localStorage.setItem('tutorial-done', true);
+      }
+
+      if (!this.walklock) {
+        this.walklock = true;
+        this.walkForum();
+        setTimeout(() => { this.walklock = false }, 1000);
+      }
+
+      this.isMoved = true;
+      this.drop();
+
+      const timestamp = evt.timeStamp || Date.now();
+      this.updateAngle(this.touchStartX, this.touchStartY, x, y, timestamp);
+
+      this.timer2 = setInterval(() => {
+        let sign = (this.velocity > 0) ? 1 : -1;
+        if (sign * this.velocity <= 0.1) {
+          clearInterval(this.timer2);
+          this.walkForum();
+          return;
+        }
+        this.velocity = Math.max(Math.min(this.velocity, MAX_SPEED), -MAX_SPEED);
+        this.tmpcoord = Math.min(Math.max(this.minCoord, this.tmpcoord + this.velocity), this.maxCoord);
+        this.velocity *= FRICTION;
+      }, 40);
+    },
+
+    angleOntouchend(evt) {
+      if (!this.loaded) return;
+
+      if (evt.touches.length > 0) {
+        // пальцы ещё на экране — не сбрасываем жест
+        return;
+      }
+
+      if (this.gestureCanceled) {
+        // если жест был отменён, при полном отпускании пальцев снимаем блокировку
+        this.gestureCanceled = false;
+        return;
+      }
+
+      this.isSliding = false;
+      if (this.isMoved) {
+        this.isMoved = false;
+        this.walkForum();
+        clearInterval(this.timer2);
+        this.timer2 = setInterval(() => {
+          let sign = (this.velocity > 0) ? 1 : -1;
+          if (sign * this.velocity <= 0.1) {
+            clearInterval(this.timer2);
+            this.walkForum();
+            return;
+          }
+          this.velocity = Math.max(Math.min(this.velocity, MAX_SPEED), -MAX_SPEED);
+          this.tmpcoord = Math.min(Math.max(this.minCoord, this.tmpcoord + this.velocity), this.maxCoord);
+          this.velocity *= FRICTION;
+        }, 40);
+      }
+
+      this.touchStartX = undefined;
+      this.touchStartY = undefined;
+      this.touchLastDirection = null;
+    },
+
+    cancelGesture(reason = "") {
+      console.log(`Gesture canceled: ${reason}`);
+      this.isSliding = false;
+      this.gestureCanceled = true; // блокируем до полного отпускания пальцев
+      clearInterval(this.timer2);
+      this.touchStartX = undefined;
+      this.touchStartY = undefined;
+      this.touchLastDirection = null;
+    },
+
+    updateAngle(startX, startY, endX, endY, timestamp) {
+      let delta = (startX - endX);
+      if (delta > 0) {
+        this.flip = false;
+      } else {
+        this.flip = true;
+      }
+
+      let elapsed = timestamp - this.lastTime;
+      this.lastTime = timestamp;
+
+      // calculate acceleration based on delta and elapsed time
+      this.acceleration = delta / elapsed;
+
+      // update velocity based on acceleration, clamped to maximum speed
+      this.velocity = Math.max(Math.min(this.velocity + this.acceleration, MAX_SPEED), -MAX_SPEED);
+
+      // update character position based on velocity, clamped to screen bounds
+      this.tmpcoord = Math.min(Math.max(this.minCoord, this.tmpcoord + this.velocity), this.maxCoord);
+
+      // apply friction to gradually slow down character
+      this.velocity *= FRICTION;
+    },
+    onFrame() {
+      if (this.expYld == 'Inf' || this.expYld == 0) {
+        this.rdy = false;
+      } else {
+        this.rdy = true;
+      }
+      this.currentAnimId = window.requestAnimationFrame(this.onFrame);
+    },
+    deposite () {
+      router.replace('/deposit')
+    },
+    withdraw () {
+      router.replace('/withdraw')
+    },
+    verse () {
+      this.isVerse = true
+    },
+    yell () {
+      //this.$emit('yellInner', state.id, this.verse)
+      //emit("yellInner", state.id, this.verse)
+      //console.log(this.verse)
+    },
+    back () {
+      this.activity_state = 'idle';
+    },
+    back2 () {
+      this.withActive = false;
+      this.depActive = false;
+      this.selectEgg = 1
+      setTimeout(()=>{this.dwCounter = 0;this.isSuccessDW=false;},500);
+    },
+    submit () {
+
+    },
+    enterForum () {
+        axios.get(`${config.api}/rooms/enter/2`)
+        .then(response => {
+          state.forum = response.data.data.data.slice()
+          state.forumTS = response.data.data.ts
+          this.chat_log_ts = response.data.data.ts
+          this.chat_log = response.data.data.chat_log
+          console.log('CHAT ENTER',this.chat_log)
+          if (this.loaded2 == false)
+            for (const object of state.forum) {
+              if (object.user_id == state.user.id) {
+                this.tmpcoord = object.coordinate;
+                this.flip = object.flip;
+                setTimeout(()=>{
+                  this.loaded2 = true
+                },50)
+                setTimeout(()=>{
+                  this.loaded = true
+                },550)
+                break;
+              }
+            }
+          //console.log('FORUM',response.data.data.data.slice())
+        })
+    },
+    walkForum () {
+      clearTimeout(this.walkTimer)
+      this.walkTimer = setTimeout(()=>{
+        axios
+        .post(config.api+'/rooms/walk', {
+          coordinate: this.tmpcoord,
+          flip: this.flip,
+        }).then((response) => {
+            //console.log('WALKRESP',response.data.data)
+            if (response.data.data.ts > state.forumTS) {
+              state.forum = response.data.data.data.slice()
+              state.forumTS = response.data.data.ts
+              //console.log('WALK',state.forum)
+            } else {
+              //console.log('WRONGTS',state.forumTS,response.data.data.ts)
+            }
+          }).catch(error => {
+            //console.log('WALKERR',error)
+            this.error.message = error.response.data.message
+          })
+      },500)
+    },
+    updateForum (data) {
+      //console.log('FORUMWSTS',data.ts)
+      if (data.ts > state.forumTS) {
+        state.forum = data.data.original.slice()
+        state.forumTS = data.ts
+        //console.log('FORUMWS',state.forum)
+      } else {
+        //console.log('WRONGWSTS',state.forumTS,data.ts)
+      }
+    },
+    yellForum (data) {
+      if (this.chat_log_ts < data.ts) {
+        this.chat_log = data.chat_log
+        this.chat_log_ts = data.ts
+        console.log('CHAT DATA',this.chat_log_ts,data.ts)
+      }
+      this.scrollToBottom();
+      if (data.id != state.user.id)
+        this.$refs['master' + data.id].[0].onYellMasterEvent(data.verse)
+    },
+    likeForum (data) {
+      if (data.id_from != state.user.id)
+        this.$refs['master' + data.id_from].[0].onLikeMasterEvent("❤️❤️❤️")
+      else 
+        this.$refs['master' + data.id_from].onLikeMasterEvent("❤️❤️❤️")
+      if (data.id != state.user.id)
+        setTimeout(()=>{this.$refs['master' + data.id].[0].onLikeMasterEvent("+❤️")},1000);
+      else
+        setTimeout(()=>{this.$refs['master' + data.id].onLikeMasterEvent("+❤️")},1000);
+      if (data.id == state.user.id) {
+        clearTimeout(this.timer4);
+        this.isLuv = true;
+        this.luvName = data.name_from
+        this.timer4 = setTimeout(()=>{this.isLuv = false;},5000)
+      }
+    },
+    loadState () {
+      axios.get(`${config.api}/telemetry`)
+        .then(response => {
+
+          this.pool = response.data.data.total_pool
+          this.nodes = response.data.data.totalNodes
+          this.mint = response.data.data.total_mined
+          this.online = response.data.data.total_users
+          this.emit = response.data.data.emit
+          setTimeout(()=>{
+            axios.get(`${config.api}/telemetry/chart`)
+            .then(response => {
+              this.nodeval = response.data.data[0].amount
+              this.rawchart = response.data.data
+              utils.processVerseChart(this.rawchart)
+              setTimeout(()=>{
+                axios.get(`${config.api}/telemetry/num`)
+                .then(response => {
+                  this.rawchart2 = response.data.data
+                  this.nodeval2 = response.data.data[0].amount * 100
+                  console.log('nodeval',this.nodeval2)
+                  utils.processNumChart(this.rawchart2)
+                })
+              },500)
+            })
+          },500)
+        })
+    },
+    setChartSize () {
+      if (state.options.chart_size == 24) {
+        state.options.chart_size = 48
+        window.localStorage.setItem('chart-size',state.options.chart_size)
+        utils.processVerseChart(this.rawchart)
+        utils.processNumChart(this.rawchart2)
+      } else if (state.options.chart_size == 48) {
+        state.options.chart_size = 168
+        window.localStorage.setItem('chart-size',state.options.chart_size)
+        utils.processVerseChart(this.rawchart)
+        utils.processNumChart(this.rawchart2)
+      } else {
+        state.options.chart_size = 24
+        window.localStorage.setItem('chart-size',state.options.chart_size)
+        utils.processVerseChart(this.rawchart)
+        utils.processNumChart(this.rawchart2)
+      }
+    },
+    setSize () {
+      if (state.options.forum_size == 2) {
+        state.options.forum_size = 1
+        window.localStorage.setItem('forum-size',state.options.forum_size)
+      } else {
+        state.options.forum_size = 2
+        window.localStorage.setItem('forum-size',state.options.forum_size)
+      }
+    },
+    drop () {
+      this.isError = false;
+      this.isVerse = false;
+      this.verse= "";
+      this.isVoteSelect = false;
+      this.isSendSelect = false;
+      this.isLuv = false;
+      this.selectId = null;
+    },
+    action () {
+      if (this.isError) return this.drop();
+      if (this.isLuv) return this.isLuv = false;
+      if (this.isSending) return;
+      if (this.isLeave) {
+        this.actionForum()
+      } else if (this.isVoteSelect) {
+        this.actionVote()
+        this.drop(); 
+      } else {
+        this.isVerse = true
+        this.$nextTick(() => {
+          this.scrollToBottom(true);
+        });
+      }
+    },
+    actionForum () {
+      this.$router.replace('/forum')
+    },
+    actionVerse () {
+      if (this.verse) {
+        this.$refs['master'+state.user.id].onYellMasterEvent(this.verse)
+        axios
+          .post(config.api+'/rooms/verse', {
+            verse: this.verse,
+          }).then(() => {
+            this.isSending = false;
+          }).catch(error => {
+            this.isError = true;
+            this.error = error.response.data.message
+            this.isSending = false;
+          })
+      }
+    },
+    actionYell () {
+      if (this.verse) {
+        this.$refs['master'+state.user.id].onYellMasterEvent(this.verse)
+        axios
+          .post(config.api+'/rooms/yell', {
+            verse: this.verse,
+          }).then((response) => {
+            console.log('CHAT RESPO',response.data.data.tsm,this.chat_log_ts)
+            if (this.chat_log_ts < response.data.data.ts) {
+              this.chat_log = response.data.data.chat_log
+              this.chat_log_ts = response.data.data.ts
+              console.log('CHAT OWN',this.chat_log)
+            }
+            this.scrollToBottom();
+            this.isSending = false;
+          }).catch(error => {
+            this.isError = true;
+            this.error = error.response.data.message
+            this.isSending = false;
+          })
+      } else
+        this.isVerse = false;
+      //setTimeout(()=>{
+        this.verse = "";
+      //},1000)
+    },
+    voteSelect (id) {
+      this.drop()
+      this.selectId = id;
+      this.isVoteSelect = true;
+      console.log("SELECTED", this.selectId)
+    },
+    sendSelect (id) {
+      this.drop()
+      this.selectId = id;
+      this.isSendSelect = true;
+      console.log("SELECTED", this.selectId)
+    },
+    actionVote () {
+      this.isSending = true;
+      this.isVoteSelect = false;
+      //this.$refs['master'+state.user.id].onYellMasterEvent(this.verse)
+      axios
+      .post(config.api+'/rooms/vote/' + this.selectId, {
+      }).then(() => {
+        this.isActionDone = true;
+        this.isSending = false;
+        setTimeout(()=>{
+          this.isActionDone = false;
+        },1000)
+      }).catch(error => {
+        this.isError = true;
+        this.error = error.response.data.message
+        this.isSending = false;
+      })
+    },
+    actionIncense () {
+      this.isSending = true;
+      let id = null;
+      if (this.isIncense1) id = 1;
+      if (this.isIncense2) id = 2;
+      if (this.isIncense3) id = 3;
+      axios
+      .post(config.api+'/rooms/incense/', {
+        incense_id: id,
+      }).then(() => {
+        this.isActionDone = true;
+        this.isSending = false;
+        setTimeout(()=>{
+          utils.update_game();
+          this.isActionDone = false;
+        },1000)
+      }).catch(error => {
+        this.isError = true;
+        this.error = error.response.data.message
+        this.isSending = false;
+      })
+    },
+    actionBall () {
+      if (state.options.chart_mode == 1) {
+        state.options.chart_mode = 2
+        window.localStorage.setItem('chart-mode',state.options.chart_mode)
+      } else if (state.options.chart_mode == 2) {
+        state.options.chart_mode = 3
+        window.localStorage.setItem('chart-mode',state.options.chart_mode)
+      } else if (state.options.chart_mode == 3) {
+        state.options.chart_mode = 4
+        window.localStorage.setItem('chart-mode',state.options.chart_mode)
+      }else {
+        state.options.chart_mode = 1
+        window.localStorage.setItem('chart-mode',state.options.chart_mode)
+      }
+    },
+    actionCaravan () {
+      this.isSending = true;
+      axios
+      .post(config.api+'/rooms/caravan/').then(() => {
+        this.isActionDone = true;
+        this.isSending = false;
+        setTimeout(()=>{
+          utils.update_game();
+          this.isActionDone = false;
+        },1000)
+      }).catch(error => {
+        this.isError = true;
+        this.error = error.response.data.message
+        this.isSending = false;
+      })
+    },
+    actionSend () {
+      this.isSending = true;
+      this.isSendSelect = false;
+      //this.$refs['master'+state.user.id].onYellMasterEvent(this.verse)
+      axios
+      .post(config.api+'/rooms/send/' + this.selectId, {
+      }).then(response => {
+        this.isSending = false;
+        this.$router.push('/send/'+ response.data.data);
+        // setTimeout(()=>{
+        //   this.isActionDone = false;
+        //   console.log("RESPONS", response)
+          
+        // },750)
+      }).catch(error => {
+        this.isError = true;
+        this.error = error.response.data.message
+        this.isSending = false;
+      })
+    },
+    actionPromote () {
+      this.isSending = true;
+      this.isVoteSelect = false;
+      //this.$refs['master'+state.user.id].onYellMasterEvent(this.verse)
+      axios
+      .post(config.api+'/rooms/promote/' + this.selectId, {
+      }).then(() => {
+        this.isActionDone = true;
+        this.isSending = false;
+        setTimeout(()=>{
+          this.isActionDone = false;
+        },1000)
+      }).catch(error => {
+        this.isError = true;
+        this.error = error.response.data.message
+        this.isSending = false;
+      })
+    },
+    actionLike () {
+      this.isSending = true;
+      this.isSendSelect = false;
+      //this.$refs['master'+state.user.id].onYellMasterEvent(this.verse)
+      axios
+      .post(config.api+'/rooms/like/' + this.selectId, {
+      }).then(() => {
+        this.isActionDone = true;
+        this.isSending = false;
+        setTimeout(()=>{
+          this.isActionDone = false;
+        },1000)
+      }).catch(error => {
+        this.isError = true;
+        this.error = error.response.data.message
+        this.isSending = false;
+      })
+    },
+    actionScribe () {
+      this.isSending = true;
+      this.isVerse = false;
+      //this.$refs['master'+state.user.id].onYellMasterEvent(this.verse)
+      if (this.verse) {
+        axios
+        .post(config.api+'/rooms/scribe', {
+          verse: this.verse,
+        }).then(() => {
+          this.isActionDone = true;
+          this.isSending = false;
+          setTimeout(()=>{
+            this.isActionDone = false;
+            utils.update_game();
+          },1000)
+
+        }).catch(error => {
+          this.isError = true;
+          this.error = error.response.data.message
+          this.isSending = false;
+        })
+      } else {
+        this.isSending = false;
+      }
+      setTimeout(()=>{
+        this.verse = "";
+      },1000)
+    },
+    trigger () {
+      this.loadState();
+      this.enterForum();
+    },
+    updateNow() {
+        this.now = Date.now();
+    },
+  },
+  mounted () {
+    WebsocketClient.addHandler('forumupd', this.updateForum);
+    WebsocketClient.addHandler('forumyell', this.yellForum);
+    WebsocketClient.addHandler('forumlike', this.likeForum);
+    WebsocketClient.addHandler('forumscribe', this.updateForum);
+    this.loadState()
+    this.enterForum();
+    this.timer = setInterval(this.trigger,60000)
+    this.timer3 = setInterval(this.updateNow,1000)
+    this.startAnimation();
+    this.audio = new Audio(require('@/assets/music/habitat.mp3'));
+    this.audio.loop = true;
+    this.audio.volume = 0.3; // по желанию
+    // this.audio.play().catch((e) => {
+    //   console.warn('Autoplay failed:', e);
+    // });
+  },
+  beforeDestroy() {
+    if (this.audio) {
+      this.audio.pause();
+      this.audio = null;
+    }
+  },
+  destroyed () {
+    this.loaded = false;
+    this.loaded2 = false;
+    WebsocketClient.removeHandler('forumupd', this.updateForum);
+    WebsocketClient.removeHandler('forumyell', this.yellForum);
+    WebsocketClient.removeHandler('forumlike', this.likeForum);
+    WebsocketClient.removeHandler('forumscribe', this.updateForum);
+    clearInterval(this.timer)
+    clearInterval(this.timer2)
+    clearInterval(this.timer3)
+    state.appVars.forum_activity_lock = true;
+    setTimeout(()=>{
+      state.appVars.forum_activity_lock = false;
+    }, 10000)
+    // axios.get(`${config.api}/rooms/leave`)
+    // state.forum.splice(0,state.forum.length)
+    this.stopAnimation();
+  }
+
+}
+</script>
+
+<style scoped>
+
+  .eye {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    left: 50%;
+    bottom: 250px;
+    margin-left: -2px;
+    margin-bottom: -2px;
+    background: #000;
+    opacity: 1;
+    background: url('~@/assets/angl5.png');
+    background-size: contain;
+    transform-origin: center center;
+    transition: 1s ease opacity;
+  }
+
+  .eye-2 {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    left: 12775px;
+    bottom: 270px;
+    margin-left: -2px;
+    margin-bottom: -2px;
+    opacity: 1;
+    transform-origin: center center;
+    transition: opacity 1s ease;
+    transform: translateX(-50%) scaleX(-1);
+    animation: levitate 10s ease infinite;
+    background: url('~@/assets/angl4.png');
+    background-size: contain;
+    transform-origin: center center;
+    transition:  opacity 1s ease;
+  }
+
+  @keyframes levitate2 {
+    0% {
+      bottom: 270px;
+    }
+
+    33% {
+      bottom: 250px;
+    }
+
+    66% {
+      bottom: 290px;
+    }
+
+    100% {
+      bottom: 270px;
+    }
+  }
+
+  @keyframes levitate {
+    0% {
+      bottom: 270px;
+    }
+
+    33% {
+      bottom: 240px;
+    }
+
+    66% {
+      bottom: 290px;
+    }
+
+    100% {
+      bottom: 270px;
+    }
+  }
+
+  .eye-3 {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    left: 50%;
+    bottom: 250px;
+    margin-left: -2px;
+    margin-bottom: -2px;
+    background: #000;
+    opacity: 1;
+    background: url('~@/assets/angl3.png');
+    background-size: contain;
+    transform-origin: center center;
+    transition: 1s ease opacity;
+  }
+
+  .eye-4 {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    left: 50%;
+    bottom: 250px;
+    margin-left: -2px;
+    margin-bottom: -2px;
+    background: #000;
+    opacity: 1;
+    background: url('~@/assets/angl2.png');
+    background-size: contain;
+    transform-origin: center center;
+    transition: 1s ease opacity;
+  }
+
+  .eye-5 {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    left: 50%;
+    bottom: 250px;
+    margin-left: -2px;
+    margin-bottom: -2px;
+    background: #000;
+    opacity: 1;
+    background: url('~@/assets/angl.png');
+    background-size: contain;
+    transform-origin: center center;
+    transition: 1s ease opacity;
+  }
+
+  .eye-pulse {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    left: 50%;
+    bottom: 60px;
+    margin-left: -2px;
+    margin-bottom: -2px;
+    background: #000;
+    border-radius: 50%;
+    opacity: .3;
+    -webkit-animation: pulse2 2s infinite;
+    animation: pulse2 2s infinite;
+    transform-origin: center center;
+  }
+
+  .win {
+    color: #e5c44f;
+  }
+  .win::before {
+    content:  '+';
+  }
+  .lose {
+    color: #ff8ee4;
+  }
+
+  .clock.locked {
+    color: #ff8ee4;
+  }
+
+  .wall-c {
+    overflow: hidden;
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    background: black;
+    right: -100%;
+    z-index: 500;
+    border-left: black 0px solid;
+    transition: 1s right ease;
+  }
+
+  .wall-c.active {
+    right: 0;
+  }
+
+  .dep-c {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    background: black;
+    right: -100%;
+    z-index: 500;
+    border-left: black 0px solid;
+    transition: 1s right ease;
+  }
+
+  .dep-c.active {
+    right: 0;
+  }
+
+
+  .cont {
+    opacity: 0;
+    transition: opacity .5s ease;
+    width: 100%;
+    position: fixed;
+    height: 100%;
+    pointer-events: none;
+    background: white;
+  }
+
+  .cont.loaded {
+    opacity: 1;
+    pointer-events: initial!important;
+  }
+
+  .header {
+    height: 100px;
+    width: 100%;
+    background: none;
+    margin-top: 20px;
+    display: block;
+    position: relative;
+    z-index: 1000;
+  }
+
+  .men-b {
+    float: right;
+    margin-right: 40px;
+    width: 80px;
+    height: 80px;
+    margin-top: 20px;
+    background: #000;
+    border-radius: 50%;
+  }
+
+  .back-b {
+    font-weight: 100;
+    font-size: 30px;
+    color: #000;
+    font-family: Roboto;
+    text-align: center;
+    line-height: 100px;
+    top: -20px;
+    position: absolute;
+    left: 20px;
+    z-index: 1;
+  }
+
+  .visible {
+    opacity: 0!important;
+  }
+
+  .noop {
+    opacity: 1!important;
+  }
+
+  .exit-b {
+    font-weight: 100;
+    font-size: 30px;
+    color: #000;
+    font-family: Roboto;
+    text-align: center;
+    line-height: 100px;
+    top: 10px;
+    position: absolute;
+    left: 40px;
+    opacity: 0;
+    pointer-events: none;
+    transition: .3s ease opacity;
+  }
+
+  .exit-b.active {
+    pointer-events: initial;
+    opacity: 1;
+  }
+
+/*  .men-b div:first-of-type {
+    background: none;
+    height: 5px;
+    width: 80px;
+    position: absolute;
+    bottom: 60px;
+  }*/
+
+  .gen-ball {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-left: -10px;
+    margin-bottom: -10px;
+    background: #000;
+    border-radius: 50%;
+    opacity: .3;
+  }
+  .gen-ball.pulse {
+    opacity: 0.2;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      width: 20px;
+      height: 20px;
+      margin-left: -10px;
+      margin-bottom: -10px;
+      opacity: 0.2;
+    }
+
+    70% {
+      width: 30px;
+      height: 30px;
+      margin-left: -15px;
+      margin-bottom: -15px;
+      opacity: 0;
+    }
+
+    100% {
+      width: 20px;
+      height: 20px;
+      margin-left: -10px;
+      margin-bottom: -10px;
+      opacity: 0;
+    }
+  }
+
+/*  .men-b div:last-of-type {
+    background: none;
+    height: 5px;
+    width: 40px;
+    position: absolute;
+    bottom: 40px;
+  }*/
+
+  .p-name div:first-of-type {
+    width: auto;
+    display: initial;
+    top: -10px;
+    position: relative;
+    right: 20px;
+  }
+
+  .p-name {
+    font-size: 46px;
+    color: #000;
+    font-family: Roboto;
+    line-height: 100px;
+    position: absolute;
+    top: 10px;
+    text-align: right;
+    font-weight: 300;
+    width: 100%;
+  }
+
+  .egg.one {
+    transition: opacity 1s ease;border: 1px dotted #000;border-radius: 75% 75% 50% 50%;opacity: 1;
+  }
+
+  .over {
+    z-index: 200!important;
+  }
+
+  .d-w-b {
+    margin-top: 12px;
+    height: 160px;
+    width: 100%;
+    background: none;
+    transition: opacity .5s ease, max-height 1s ease;
+    max-height: 160px;
+    overflow: visible;
+  }
+
+  .d-w-b img {
+    width: 60px;
+  }
+
+  .d-w-b div:first-of-type img {
+    margin-right: 20px;
+  }
+
+  .d-w-b div {
+    transition: all .5s ease;
+    display: inline-block;
+    width: calc(100% - 80px);
+    margin-left: 40px;
+    margin-right: 40px;
+    height: 160px;
+    position: relative;
+    line-height: 150px;
+    text-align: center;
+    border: 5px solid #e5c44f;
+    font-size: 50px;
+    background: none!important;
+    color: #e5c44f;
+    font-family: Rubik;
+    border-radius: 25px;
+    font-weight: 400;
+    z-index: 1000;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    box-shadow: inset 0 5px 10px 2px rgb(34 60 80 / 20%);
+  }
+
+  .d-w-b div:active {
+    -webkit-box-shadow: none;-moz-box-shadow: none;box-shadow: none;
+  }
+
+
+  
+
+  /*.d-w-b div:last-of-type {
+    border-color:  #e5c44f;
+  }
+
+  .d-w-b div:first-of-type {
+    border-color:  black;
+  }*/
+
+  .d-w-b.locked {
+    max-height: 0;
+    pointer-events: none;
+    overflow: hidden!important;
+  }
+
+  .hidden {
+    max-height: 0!important;
+    margin-bottom: 0!important;
+    pointer-events: none;
+    overflow: hidden!important;
+  }
+
+  .d-w-b.locked div:first-of-type {
+    /*border-color:  white;*/
+  }
+
+  .wall-h {
+    text-align: center;
+    width: 100%;
+  }
+  .wall-h span {
+    color: #000;
+    font-family: Roboto;
+    font-weight: 300;
+    font-size: 95px;
+    line-height: 100px;
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .wall-h span:first-of-type {
+    font-size: 46px;
+  }
+
+  .tot-b {
+    margin-left: 80px;
+    margin-right: 80px;
+    width: calc(100% - 160px);
+    position: relative;
+    display: block;
+    margin-top: 100px;
+  }
+
+  .tot-b .w-i {
+    position: absolute;
+    top: 0px;
+    right: 0;
+  }
+
+  .transif {
+    transition: all 1s linear;
+  }
+
+  .bot-h {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+  }
+
+  .ctdwn {
+    height: 160px;
+    z-index: 501;
+    position: relative;
+  }
+
+  .ctdwn div {
+    display: inline-block;
+    height: 100%;
+    position: relative;
+    line-height: 150px;
+    color: #e5c44f;
+    font-family: 'Rubik';
+    font-weight: 400;
+  }
+
+  .ctdwn div:first-of-type {
+    text-align: left;
+    float: left;
+    margin-left: 80px;
+    font-size: 50px;
+  }
+  .ctdwn div:last-of-type {
+    text-align: right;
+    float:  right;
+    margin-right: 80px;
+    font-size: 66px;
+  }
+
+  .chartmuted .apexcharts-xaxis-label, .chartmuted .apexcharts-yaxis-label {
+    display: none;
+  }
+
+  .s-b {
+    margin-top: 12px;
+    height: 160px;
+    width: 100%;
+    background: none;
+    margin-bottom:  4px;
+  }
+
+  .s-b div.dim {
+    background: none!important;
+    color: #e5c44f;
+    pointer-events: none;
+  }
+
+  .s-b div {
+    transition: all .5s ease;
+    display: inline-block;
+    width: calc(100% - 80px);
+    margin-left:  40px;
+    margin-right:  40px;
+    height: 100%;
+    position: relative;
+    line-height: 150px;
+    text-align: center;
+    border: 5px solid #e5c44f;
+    font-size: 50px;
+    color: #000000;
+    background: #e5c44f;
+    font-family: Rubik;
+    border-radius:  25px;
+    font-weight: 400;
+  }
+
+  .g-s {
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-bottom: 90px;
+    width: calc(100% - 160px);
+    position: relative;
+    display: block;
+    text-align: left;
+  }
+
+  .g-s div {
+    position: relative;
+    bottom: 0;
+  }
+
+  .g-s > div:first-of-type {
+    margin-bottom: 40px;
+  }
+
+  .g-s div div:first-of-type {
+    position: relative;
+    color: #000;
+    font-family: Roboto;
+    bottom: 40px;
+    left: 0;
+    font-weight: 300;
+    font-size: 46px;
+    line-height: 80px;
+    white-space: nowrap;
+    text-align: left;
+    margin-bottom: 0px;
+    top: 0;
+  }
+
+  .g-s div div:last-of-type {
+    position: relative;
+    top: 0;
+    color: black;
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 150px;
+    line-height: 160px;
+  }
+
+  .g-s-m {
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-bottom: 60px;
+    width: calc(100% - 160px);
+    position: relative;
+    display: block;
+    text-align: left;
+    height: calc(0.4 * 920px);
+  }
+
+  .g-s-m div {
+    position: relative;
+    bottom: 0;
+  }
+
+  .men-b .overflow {
+    width: 80px!important;
+    height: 160px!important;
+    border-bottom-left-radius: 50%;
+    overflow: hidden;
+    display: block!important;
+    border-bottom-right-radius: 50%;
+    position: relative!important;
+    top: -80px!important;
+    left: 0;
+  }
+
+  .g-s-m > div:first-of-type {
+    margin-bottom: 30px;
+    margin-top: 40px;
+  }
+
+  .g-s-m div div:first-of-type {
+    position: relative;
+    top: 0;
+    color: black;
+    font-family: Roboto;
+    font-size: 28px;
+    font-weight: 400;
+  }
+
+  .g-s-m div div:last-of-type {
+    position: relative;
+    top: 0;
+    color: black;
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 75px;
+    line-height: 80px;
+  }
+
+  .angl-c {
+    width: calc(100% - 160px);
+    height: 920px;
+    background: none;
+    margin-left: 80px;
+    margin-right: 80px;
+    /* border-bottom: 5px solid black; */
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .w-i {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    color: black;
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 60px;
+    line-height: 80px;
+    white-space: nowrap;
+    text-align: right;
+    margin-bottom: 30px;
+    z-index: 202;
+    transition: 1.5s ease opacity;
+  }
+
+  .w-i span:first-of-type {
+    font-size: 46px;
+  }
+
+  .w-i-2 {
+    position: relative;
+    bottom: 0px;
+    left: 0px;
+    color: black;
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 60px;
+    line-height: 80px;
+    white-space: nowrap;
+    text-align: left;
+    margin-bottom: 30px;
+    top: 0;
+    transition: 1.5s ease opacity;
+  }
+
+  .bot-h .w-i-2 {
+    bottom: 0px!important;
+    position: absolute;
+    top: auto;
+  }
+
+  .w-i-2 span:first-of-type {
+    font-size: 46px;
+  }
+
+  .cash {
+    width: 40px;
+    position: relative;
+    bottom: 4px;
+    left: 10px;
+    margin-right: 12px;
+  }
+
+  .the-angl {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: calc(100% - 160px);
+    border-bottom: 5px dotted black;
+    transform-origin: bottom right;
+    opacity: 0.3;
+  }
+
+  .the-angl-2 {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: calc(100% - 160px);
+    border-bottom: 5px dotted black;
+    transform-origin: bottom left;
+    opacity: 0.35;
+  }
+
+  .the-angl div {
+    position: relative;
+    width: 4px;
+    height: 4px;
+    left: 0;
+    bottom: 0;
+    margin-left: -4px;
+    margin-bottom: -4px;
+    background: #000;
+    border-radius: 50%;
+    opacity: 0.35;
+  }
+
+  .size2 {
+    transform: scale(0.5) translateY(50%);position: relative;bottom: 0;display: block;width: 100%;height: 100%;
+  }
+
+  .the-angl div.bg {
+    opacity: 0.5;
+    animation: pulse2 3s infinite;
+  }
+
+  @keyframes pulse2 {
+
+    0% {
+      width: 2px;
+      height: 2px;
+      margin-left: -1px;
+      margin-bottom: -1px;
+      opacity: 0.3;
+    }
+
+    80% {
+      width: 6px;
+      height: 6px;
+      margin-left: -3px;
+      margin-bottom: -3px;
+      opacity: 0;
+    }
+
+    100% {
+      width: 2px;
+      height: 2px;
+      margin-left: -1px;
+      margin-bottom: -1px;
+      opacity: 0;
+    }
+
+  }
+  .radian {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    right: -200px;
+    bottom: -200px;
+    border-bottom: 5px dotted black;
+    border-radius: 50%;
+    transform: rotate(207deg);
+    border-left: none;
+    opacity: 0.4;
+  }
+
+  .radian-2 {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    left: -200px;
+    bottom: -200px;
+    border-bottom: 5px dotted black;
+    border-radius: 50%;
+    transform: rotate(207deg);
+    border-left: none;
+    opacity: 0.4;
+  }
+
+  .sw-t {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #ffffffbf;
+    z-index: 200;
+    pointer-events: none;
+    transition: opacity .7s ease;
+    opacity: 1;
+  }
+  .sw-t.disabled {
+    opacity: 0;
+  }
+  .sw-t img.disabled {
+    opacity: 0;
+  }
+
+  .sw-t img {
+    margin: auto;
+    display: block;
+    height: 700px;
+    position: absolute;
+    top: calc(50% - 350px);
+    transition: opacity .5s ease;
+    opacity: 1;
+    margin: 0 calc( (100% - 700px)/2 );
+    /*animation: 6s linear 1s infinite forwards k1;*/
+  }
+
+  .dep-in {
+    width: 100%;
+    height: calc(100% - 100px);
+    margin-top: 100px;
+    background: black;
+    z-index: 1000;
+    display: block;
+    position: fixed;
+  }
+
+  .egg {
+    width: 100px;
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    margin-left: -49px;
+    z-index: 18;
+    transform-origin: bottom center;
+  }
+
+/*.opaque {
+    animation: 6s linear 0s infinite forwards k1;
+}
+.opaque.disabled {
+  animation: none!important;
+}*/
+
+@keyframes k1 {
+  0% { opacity: 0.01; }
+  15% { opacity: 0.2; }
+  30% { opacity: 0.01; }
+  80% { opacity: 0.2; }
+  100% { opacity: 0.01; }
+}
+
+@keyframes k2 {
+  0% { opacity: 0.2; }
+  15% { opacity: 0.01; }
+  30% { opacity: 0.2; }
+  100% { opacity: 0.2; }
+}
+
+.d-w-b.loading div {
+  color: #ff8ee4!important;
+  border-color: #ff8ee4!important;
+}
+
+.starting {
+  margin-left: calc(50% - 230px);
+}
+
+.starting2 {
+  margin-right: -150px!important;
+  right: 50%!important;
+}
+
+.flip {
+  transform: scaleX(-1);
+}
+
+.animated-flame {
+  z-index: 2;
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  display: block;
+  background-size: 360px 90px;
+  background-position-x: 0%;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  animation: 1s step-start 0s infinite sprite;
+}
+
+.animated-smoke {
+  z-index: 2;
+  position: absolute;
+  margin-right: 0px;
+  width: 502px;
+  height: 502px;
+  display: block;
+  background-size: 3012px 502px;
+  background-position-x: 0%;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  animation: 2s step-start 0s infinite sprite2;
+  opacity: 0.7;
+}
+
+.animated-smoke-2 {
+  z-index: 2;
+  position: absolute;
+  margin-right: 0px;
+  width: 1000px;
+  height: 1000px;
+  display: block;
+  background-size: 6000px 1000px;
+  background-position-x: 0%;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  animation: 8s step-start 0s infinite sprite2;
+  opacity: 0.5;
+}
+
+.animated-smoke-3 {
+  z-index: 2;
+  position: absolute;
+  margin-right: 0px;
+  width: 1000px;
+  height: 1000px;
+  display: block;
+  background-size: 6000px 1000px;
+  background-position-x: 0%;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  animation: 8s step-start 1.33333333s infinite sprite2;
+  opacity: 0.5;
+}
+
+.animated-smoke-4 {
+  z-index: 2;
+  position: absolute;
+  margin-right: 0px;
+  width: 1000px;
+  height: 1000px;
+  display: block;
+  background-size: 6000px 1000px;
+  background-position-x: 0%;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  animation: 8s step-start 2.666666666s infinite sprite2;
+  opacity: 0.5;
+}
+
+.animated-fountain {
+  z-index: 2;
+  position: absolute;
+  margin-right: 0px;
+  width: 1000px;
+  height: 1000px;
+  display: block;
+  background-size: 6000px 1000px;
+  background-position-x: 0%;
+  background-position-y: 0;
+  background-repeat: no-repeat;
+  animation: 6s step-start 0s infinite sprite3;
+  opacity: 0.7;
+}
+
+@keyframes sprite {
+    0% { background-position-x: 0%; }
+    25% { background-position-x: 35%; }
+    50% { background-position-x: 73%; }
+    75% { background-position-x: 103%; }
+}
+
+@keyframes sprite2 {
+    0% { background-position-x: 0%; }
+    16.6% { background-position-x: 20%; }
+    33.2% { background-position-x: 40%; }
+    49.8% { background-position-x: 60%; }
+    66.4% { background-position-x: 80%; }
+    83% { background-position-x: 100%; }
+}
+
+@keyframes sprite3 {
+    0% { background-position-x: 0%; }
+    20% { background-position-x: 24%; }
+    40% { background-position-x: 48%; }
+    60% { background-position-x: 72%; }
+    80% { background-position-x: 96% }
+}
+
+.buttdw {
+  transition: all .5s ease;
+  display: inline-block;
+  width: calc(100% - 80px);
+  margin-left: 40px;
+  margin-right: 40px;
+  height: 160px;
+  line-height: 150px;
+  text-align: center;
+  border: 5px solid #000000;
+  font-size: 46px;
+  background: #ffffff;
+  color: #000000;
+  font-family: Rubik;
+  border-radius: 25px;
+  font-weight: 400;
+  bottom: 180px;
+  left: 0;
+  transition: all .5s ease;
+  -webkit-box-shadow: 0px 6px 8px 0px rgba(80, 73, 34, 0.25);
+  -moz-box-shadow: 0px 6px 8px 0px rgba(80, 73, 34, 0.25);
+  box-shadow: 0px 6px 8px 0px rgba(80, 73, 34, 0.25);
+  position: relative;
+  bottom: 0;
+}
+.buttdw:active {
+    -webkit-box-shadow: none;-moz-box-shadow: none;box-shadow: none;
+  }
+.buttdw.locked {
+  pointer-events: none;
+  color: #ff8ee4;
+  border-color: #ff8ee4;
+  background: none!important;
+  -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+  -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+}
+.buttdw.golden {
+  color: #ffffff;
+  border-color: #e5c44f;
+  background: #e5c44f;
+}
+.buttdw.goldish {
+  border-color: #e5c44f!important;
+  background: white!important;
+}
+.buttdw.slocked {
+  pointer-events: none!important;
+  color: #e5c44f!important;
+  border-color: #e5c44f!important;
+  background: none!important;
+  -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+  -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+}
+.buttdw.sclocked {
+  color: #e5c44f!important;
+  border-color: #e5c44f!important;
+  background: none!important;
+  -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+  -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+}
+.buttdw.success {
+  pointer-events: none!important;
+  color: #e5c44f!important;
+  border-color:#e5c44f!important;
+  background: none!important;
+  -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+  -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset!important;
+}
+
+.pagination-line {
+  width: 100%;
+  position: absolute;
+  bottom: -5px;
+  display: flex;
+  overflow: hidden;
+  height: 5px;
+  background: #000;
+}
+
+.unlocked {
+  pointer-events: initial!important;
+}
+
+.selected {
+  -webkit-animation: selection 2s infinite;
+  animation: selection 2s infinite;
+}
+
+@keyframes selection {
+
+0% {
+  opacity: 1;
+}
+
+50% {
+  opacity: 0.6;
+}
+
+100% {
+  opacity: 1;
+}
+}
+
+.chat-blob {
+ height: calc(100% - 400px);
+ margin-top: 20px;
+ background: color(srgb 1 1 1 / 0.80);
+ position: absolute;
+ top: 0;
+ width: 100%;
+ z-index: 30;
+ font-size: 48px;
+ overflow: scroll;
+ font-family: Superstar;
+}
+.chat-blob div {
+  padding: 0px 40px;
+}
+
+.chat-blob div > span {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+</style>

@@ -1,0 +1,3 @@
+	zip warning: name not matched: unicorn.angl.app/
+
+zip error: Nothing to do! (try: zip -r ./backup-app-test.zip . -i unicorn.angl.app/)

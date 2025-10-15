@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg transform="scale(1,-1)" 
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="240"
+   height="240"
+   viewBox="0 0 240 240"
+   fill="none"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="48.svg">
+  <metadata
+     id="metadata14">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     id="namedview12"
+     showgrid="false"
+     inkscape:zoom="0.98333333"
+     inkscape:cx="-30"
+     inkscape:cy="120"
+     inkscape:window-x="1272"
+     inkscape:window-y="140"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <rect
+     width="240"
+     height="240"
+     id="rect4"
+     style="fill:url(#pattern4858)"
+     x="0"
+     y="32" />
+  <defs
+     id="defs6">
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#pattern0"
+       id="pattern4858"
+       patternTransform="translate(0,32)" />
+    <pattern
+       id="pattern0"
+       patternContentUnits="objectBoundingBox"
+       width="1"
+       height="1">
+      <use
+         xlink:href="#image0"
+         transform="scale(0.015625)"
+         id="use9" />
+    </pattern>
+    <image
+       id="image0"
+       width="64"
+       height="64"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABWElEQVR4Xu2asQ0CQQwE73sgAWpAJJRDMRRDOSSIGoCEHkA0cBOsLGExpMb3++v1+v50y4DfajPe9J9fjr8eY5nhmwa/iRKgAmwBPeCXTY6waYJOARiD6Zi73k9TFd6e8zhJeLee5++32fqLBIRzXgXYAnqAJjhjwCnQfQySy9McT+d09fNxH1ANgAisfr4E0E6wugIqABioLoAtYAvAx1C1BNt7QLrTIwIonp4XxB4gAeFWlypMcRUQHpnZAukY1AP0gOxYmkyO4uUmeL7MIRwPBLE2nuJDE0wfUPv6Y6T4JICmQMqwCihmIC2QLWALwHlAKrHiDqifAukL0BUVWp8USvkURw+gBSguAXBHhwhUAeEFDiLYFqiWmB6gB8zv6VGPVisUr8sTwO5xCehewRS/CkgZ7J6vArpXMMWvAlIGu+ergO4VTPGrgJTB7vkqoHsFU/x/r4AP6v8PWOl8yBEAAAAASUVORK5CYII=" />
+  </defs>
+</svg>

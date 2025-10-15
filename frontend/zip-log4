@@ -1,0 +1,6 @@
+	zip warning: name not matched: church.angl.app/
+
+zip error: Nothing to do! (try: zip -r ./backup-church.zip . -i church.angl.app/)
+	zip warning: name not matched: war3.media/
+
+zip error: Nothing to do! (try: zip -r ./backup-war3.zip . -i war3.media/)

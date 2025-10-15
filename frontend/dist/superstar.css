@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Superstar';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Superstar'), url('https://angl.app/superstar_memesbruh03.woff') format('woff');
+}
+@font-face {
+    font-family: 'Superstar (Original)';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Superstar (Original)'), url('https://angl.app/superstarorig_memesbruh03.woff') format('woff');
+}
+
+
