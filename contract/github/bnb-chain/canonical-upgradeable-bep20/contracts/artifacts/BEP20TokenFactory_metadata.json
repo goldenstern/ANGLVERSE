@@ -1,0 +1,245 @@
+{
+	"compiler": {
+		"version": "0.6.3+commit.8dda9521"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_logicImplement",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "TokenCreated",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "symbol",
+						"type": "string"
+					},
+					{
+						"internalType": "uint8",
+						"name": "decimals",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "mintable",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "bep20Owner",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "proxyAdmin",
+						"type": "address"
+					}
+				],
+				"name": "createBEP20Token",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "logicImplement",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "renounceOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"methods": {
+				"owner()": {
+					"details": "Returns the address of the current owner."
+				},
+				"renounceOwnership()": {
+					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner.     * NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+				},
+				"transferOwnership(address)": {
+					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+				}
+			}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"github/bnb-chain/canonical-upgradeable-bep20/contracts/BEP20TokenFactory.sol": "BEP20TokenFactory"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"github/bnb-chain/canonical-upgradeable-bep20/contracts/BEP20TokenFactory.sol": {
+			"keccak256": "0x0b85f8c3bb3fccddd9d3e8efa480e6035c067cafd1889fda1e28d754f5d24b77",
+			"urls": [
+				"bzz-raw://ee7b731b78b0c8312d8c5d8561720e54e522da1921260e1fcad998556d7de250",
+				"dweb:/ipfs/QmPC9uMYxTPPsNKTcWfFW9ugok7Pfn5za6tCZpEVAheJA6"
+			]
+		},
+		"github/bnb-chain/canonical-upgradeable-bep20/contracts/BEP20UpgradeableProxy.sol": {
+			"keccak256": "0x901008bb0c78c6b835d1f802f9a244acadd435980d4908b02b8671283cd99dcd",
+			"urls": [
+				"bzz-raw://8cc5d02c5341885c99aea6c0e43ea16352f3002e3f74a71d988c941e61e73324",
+				"dweb:/ipfs/QmUkgLpzNt3bmnPXCxXzwGp1y5mmsown7eLMiLQxafuCjm"
+			]
+		},
+		"github/bnb-chain/canonical-upgradeable-bep20/contracts/IProxyInitialize.sol": {
+			"keccak256": "0x230c6b74a33354aa24268f7ffb4f6de8a39affa0aba8176f750829cd2289fc6f",
+			"urls": [
+				"bzz-raw://e62ba28ac7b9fedc4eb4d1213bb3bbabd2c600b2f1628878b9ee315165e1c891",
+				"dweb:/ipfs/QmXA45ba2iH3n5rTVTJB79Nx7d3Jw4j66T8JkEAJepf9CB"
+			]
+		},
+		"openzeppelin-solidity/contracts/access/Ownable.sol": {
+			"keccak256": "0x15e2d5bd4c28a88548074c54d220e8086f638a71ed07e6b3ba5a70066fcf458d",
+			"urls": [
+				"bzz-raw://90faf5851c02f9bd42c5bfb54d4f0421a2612f50ab80b2c4fa24fa3792071cc2",
+				"dweb:/ipfs/QmRGM4F2PcGVF85aTfaA9YBhCHHDqrMhRjyp6fGeBTtirb"
+			]
+		},
+		"openzeppelin-solidity/contracts/proxy/Proxy.sol": {
+			"keccak256": "0x0414d54056b3d8f9102ae1142264e9361408397878148203ab7a25cbf6248f08",
+			"urls": [
+				"bzz-raw://ebdc01639f69030c754dc3462d5f437c4644164465066187e320f524579fbede",
+				"dweb:/ipfs/QmZZhoPYagwu4MoJMAg26Y6Nfj4d9HJzUnvrMNsbo9ZorM"
+			]
+		},
+		"openzeppelin-solidity/contracts/proxy/TransparentUpgradeableProxy.sol": {
+			"keccak256": "0xf852214ea286716082f3ba480ff70bda2cbe2d11238091d2a440767d0ed49e61",
+			"urls": [
+				"bzz-raw://9381d4856e04635fcd426b0ef39a1b5aa56764170f23823daa91905a06751531",
+				"dweb:/ipfs/QmZ7vo8xo9GUrcxutmQnCYy9NpvjsxHWfqQCpFzYtHNu7A"
+			]
+		},
+		"openzeppelin-solidity/contracts/proxy/UpgradeableProxy.sol": {
+			"keccak256": "0x81af1059a5bd5fb25cb0351499e1d4110416f5b0000ffad6427cbf6088b193a4",
+			"urls": [
+				"bzz-raw://621f2fedaeeacf70ff1554748f63356555f591cdcf29c74e3d23a83720a078a2",
+				"dweb:/ipfs/QmYGnscyZgJGYgXKcoYhNX2M6uoJiHS1zTsQnu5NsJxPGG"
+			]
+		},
+		"openzeppelin-solidity/contracts/utils/Address.sol": {
+			"keccak256": "0x28911e614500ae7c607a432a709d35da25f3bc5ddc8bd12b278b66358070c0ea",
+			"urls": [
+				"bzz-raw://256c8c8af5eb072bc473226ab2b2187149b8fc04f5f4a4820db22527f5ce8e3c",
+				"dweb:/ipfs/QmRvi5BhnL7Rxf85KrJhwM6RRhukm4tzoctRdgQEheNyiN"
+			]
+		},
+		"openzeppelin-solidity/contracts/utils/Context.sol": {
+			"keccak256": "0x8d3cb350f04ff49cfb10aef08d87f19dcbaecc8027b0bed12f3275cd12f38cf0",
+			"urls": [
+				"bzz-raw://ded47ec7c96750f9bd04bbbc84f659992d4ba901cb7b532a52cd468272cf378f",
+				"dweb:/ipfs/QmfBrGtQP7rZEqEg6Wz6jh2N2Kukpj1z5v3CGWmAqrzm96"
+			]
+		}
+	},
+	"version": 1
+}
